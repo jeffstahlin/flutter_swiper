@@ -48,55 +48,30 @@ class SwiperControl extends SwiperPlugin {
     int quarterTurns, 
     bool previous
   ) {
-    return new GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: () {
+    return RaisedButton.icon(
+      onPressed: () {
         if (previous) {
           config.controller.previous(animation: true);
         } else {
           config.controller.next(animation: true);
         }
       },
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(50.0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black12, 
-              blurRadius: 50.0,
-            )
-          ]
-        ),
-        child: Row(
-          children: <Widget>[
-            Padding(
-              padding: padding,
-              child: RotatedBox(
-                quarterTurns: quarterTurns,
-                child: Text(
-                  previous ? "Previous" : "Next",
-                  style: TextStyle(
-                    fontSize: 25.0,
-                  ),
-                )
-              )
-            ),
-            Padding(
-              padding: padding,
-              child: RotatedBox(
-                quarterTurns: quarterTurns,
-                child: Icon(
-                  iconData,
-                  semanticLabel: previous ? "Previous" : "Next",
-                  size: size,
-                  color: color,
-                )
-              )
-            ),
-          ],
-        )
-      )
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(50.0),
+      ),
+      padding: EdgeInsets.fromLTRB(25.0, 15.0, 15.0, 15.0),
+      color: Colors.lightBlueAccent,
+      textColor: Colors.white,
+      icon: Text(
+        previous ? "Previous" : "Next",
+        style: TextStyle(fontSize: 25.0),  
+      ),
+      label: Icon(
+        iconData,
+        semanticLabel: previous ? "Previous" : "Next",
+        size: size,
+        color: color,
+      ),
     );
   }
 
