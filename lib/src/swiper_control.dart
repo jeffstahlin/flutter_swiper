@@ -28,31 +28,29 @@ class SwiperControl extends SwiperPlugin {
 
   final bool isVisible;
 
-  const SwiperControl({
-    this.iconPrevious: Icons.arrow_back_ios,
-    this.iconNext: Icons.arrow_forward_ios,
-    this.color,
-    this.disableColor,
-    this.key,
-    this.size: 30.0,
-    this.padding: const EdgeInsets.all(15.0),
-    this.alignment: Alignment.center,
-    this.controlButtonStyle,
-    this.isVisible
-  });
+  final Function transitionTo;
 
-  Widget buildButton(
-    SwiperPluginConfig config, 
-    Color color, 
-    IconData iconData,
-    int quarterTurns, 
-    bool previous
-  ) {
+  const SwiperControl(
+      {this.iconPrevious: Icons.arrow_back_ios,
+      this.iconNext: Icons.arrow_forward_ios,
+      this.color,
+      this.disableColor,
+      this.key,
+      this.size: 30.0,
+      this.padding: const EdgeInsets.all(15.0),
+      this.alignment: Alignment.center,
+      this.controlButtonStyle,
+      this.isVisible,
+      this.transitionTo});
+
+  Widget buildButton(SwiperPluginConfig config, Color color, IconData iconData,
+      int quarterTurns, bool previous) {
     return RaisedButton.icon(
       onPressed: () {
         if (previous) {
           config.controller.previous(animation: true);
         } else {
+          transitionTo(true);
           config.controller.next(animation: true);
         }
       },
@@ -64,7 +62,7 @@ class SwiperControl extends SwiperPlugin {
       textColor: Colors.white,
       icon: Text(
         previous ? "Previous" : "Next",
-        style: TextStyle(fontSize: 25.0),  
+        style: TextStyle(fontSize: 25.0),
       ),
       label: Icon(
         iconData,
@@ -100,8 +98,10 @@ class SwiperControl extends SwiperPlugin {
           key: key,
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
-            if (this.iconPrevious != null) buildButton(config, prevColor, iconPrevious, 0, true),
-            if (this.iconNext != null) buildButton(config, nextColor, iconNext, 0, false)
+            if (this.iconPrevious != null)
+              buildButton(config, prevColor, iconPrevious, 0, true),
+            if (this.iconNext != null)
+              buildButton(config, nextColor, iconNext, 0, false)
           ],
         );
       } else {
@@ -109,8 +109,10 @@ class SwiperControl extends SwiperPlugin {
           key: key,
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
-            if (this.iconPrevious != null) buildButton(config, prevColor, iconPrevious, -3, true),
-            if (this.iconNext != null) buildButton(config, nextColor, iconNext, -3, false)
+            if (this.iconPrevious != null)
+              buildButton(config, prevColor, iconPrevious, -3, true),
+            if (this.iconNext != null)
+              buildButton(config, nextColor, iconNext, -3, false)
           ],
         );
       }
